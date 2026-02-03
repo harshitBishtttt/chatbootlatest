@@ -11,11 +11,23 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            const button = document.getElementById('chatbase-bubble-button');
+            if (button) {
+                console.log('Chatbase button found, clicking it to open chat window.');
+                button.style.display = 'none';
+            clearInterval(interval);
+            } else {
+           // clearInterval(interval);
+            }
+        }, 500);
         const token = localStorage.getItem('authToken');
         if (token) {
             navigate('/home');
         }
+
     }, []);
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         let errs = {};

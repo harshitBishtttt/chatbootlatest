@@ -11,7 +11,8 @@ function Home() {
             const button = document.getElementById('chatbase-bubble-button');
             if (button) {
                 console.log('Chatbase button found, clicking it to open chat window.');
-            button.click();
+                button.style.display = 'block';
+                button.click();
             clearInterval(interval);
             } else {
            // clearInterval(interval);
