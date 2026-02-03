@@ -36,7 +36,7 @@ function Login() {
         if (!password) errs.password = 'Password is required';
         setErrors(errs);
         if (Object.keys(errs).length === 0) {
-            fetch(`${process.env.REACT_APP_API_BASE_URL_local}/auth/login`, {
+            fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

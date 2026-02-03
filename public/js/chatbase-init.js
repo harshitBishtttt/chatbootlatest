@@ -19,7 +19,7 @@
         const token = localStorage.getItem("authToken"); // dynamic token from login
         dev.env
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL_local}/baseR4/Patient?${query}`,
+          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Patient?${query}`,
           {
             method: "GET",
             headers: {
@@ -42,7 +42,7 @@
         const token = localStorage.getItem("authToken"); // dynamic token from login
 
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL_local}/baseR4/Observations?${query}`,
+          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Observations?${query}`,
           {
             method: "GET",
             headers: {
@@ -65,7 +65,7 @@
         const query = new URLSearchParams({ subject, code, encounter }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL_local}/baseR4/Procedure?${query}`,
+          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Procedure?${query}`,
           {
             method: "GET",
             headers: {
@@ -87,7 +87,7 @@
         const query = new URLSearchParams({ subject, prescriptionId, code }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL_local}/baseR4/MedicationRequest?${query}`,
+          `${process.env.REACT_APP_API_BASE_URL}/baseR4/MedicationRequest?${query}`,
           {
             method: "GET",
             headers: {
@@ -115,7 +115,7 @@
         const token = localStorage.getItem("authToken");
 
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL_local}/baseR4/Encounter?${params.toString()}`,
+          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Encounter?${params.toString()}`,
           {
             method: "GET",
             headers: {
@@ -138,7 +138,7 @@
         const query = new URLSearchParams({ subject, code , encounter }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL_local}/baseR4/Condition?${query}`,
+          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Condition?${query}`,
           {
             method: "GET",
             headers: {
