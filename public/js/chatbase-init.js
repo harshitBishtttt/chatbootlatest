@@ -11,15 +11,16 @@
       },
     });
   }
+
   window.chatbase("registerTools", {
     search_fhir_patient: async (args) => {
       try {
         const { family = "", given = "", email = "", birthdate = "", gender = "" } = args;
         const query = new URLSearchParams({ family, given, email, birthdate, gender }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
-        dev.env
+
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Patient?${query}`,
+          `https://fhirassist.rsystems.com:481/baseR4/Patient?${query}`,
           {
             method: "GET",
             headers: {
@@ -42,7 +43,7 @@
         const token = localStorage.getItem("authToken"); // dynamic token from login
 
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Observations?${query}`,
+          `https://fhirassist.rsystems.com:481/baseR4/Observations?${query}`,
           {
             method: "GET",
             headers: {
@@ -65,7 +66,7 @@
         const query = new URLSearchParams({ subject, code, encounter }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Procedure?${query}`,
+          `https://fhirassist.rsystems.com:481/baseR4/Procedure?${query}`,
           {
             method: "GET",
             headers: {
@@ -87,7 +88,7 @@
         const query = new URLSearchParams({ subject, prescriptionId, code }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/baseR4/MedicationRequest?${query}`,
+          `https://fhirassist.rsystems.com:481/baseR4/MedicationRequest?${query}`,
           {
             method: "GET",
             headers: {
@@ -115,7 +116,7 @@
         const token = localStorage.getItem("authToken");
 
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Encounter?${params.toString()}`,
+          `https://fhirassist.rsystems.com:481/baseR4/Encounter?${params.toString()}`,
           {
             method: "GET",
             headers: {
@@ -138,7 +139,7 @@
         const query = new URLSearchParams({ subject, code , encounter }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/baseR4/Condition?${query}`,
+          `https://fhirassist.rsystems.com:481/baseR4/Condition?${query}`,
           {
             method: "GET",
             headers: {
@@ -154,12 +155,6 @@
         return { status: "error", error: error.message };
       }
     }
-
-
-
-
-
-
 
   });
 })();
