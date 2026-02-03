@@ -48,7 +48,8 @@ function Login() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data) {
+                    console.log(data)
+                    if (data && data.idToken) {
                         localStorage.setItem('authToken', data.idToken);
                         navigate('/home');
                     } else {
