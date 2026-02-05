@@ -13,9 +13,9 @@ function Home() {
                 console.log('Chatbase button found, clicking it to open chat window.');
                 button.style.display = 'block';
                 button.click();
-            clearInterval(interval);
+                clearInterval(interval);
             } else {
-           // clearInterval(interval);
+                // clearInterval(interval);
             }
         }, 500);
     }, []);
@@ -24,12 +24,17 @@ function Home() {
     const handleLogout = () => {
         // Add any logout logic here (e.g., clearing tokens)
         localStorage.clear();
+        const button = document.getElementById('chatbase-bubble-button');
+        if (button) {
+            console.log('Chatbase button found, clicking it to open chat window.');
+            button.click();
+            button.style.display = 'none';
+        }
         navigate('/');
     };
 
     return (
         <section className="py-5 BorderSection">
-            <a onClick={handleLogout}>Logout</a>
             <div className="container">
                 <div className="row align-items-start">
 
@@ -83,11 +88,15 @@ function Home() {
                             </div>
 
                         </div>
+                        <div class="row g-4"><div class="col-md-4 pt-4"><button class="btn btn-primary-custom mt-4 w-75" onClick={handleLogout} >
+                            <i class="fa-solid fa-sign-out me-2"></i>
+                            Log Out
+                        </button></div></div>
                     </div>
 
                     <div className="col-lg-4 col-md-12">
                         <div className="chat-shell">
-                           
+
                         </div>
                     </div>
 
