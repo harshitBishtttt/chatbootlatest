@@ -29,38 +29,57 @@ function Login() {
 
     }, []);
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let errs = {};
-        if (!userId) errs.userId = 'User ID is required';
-        if (!password) errs.password = 'Password is required';
-        setErrors(errs);
-        if (Object.keys(errs).length === 0) {
-            fetch('https://fhirassist.rsystems.com:481/auth/login', {
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    let errs = {};
+    if (!userId) errs.userId = 'User ID is required';
+    if (!password) errs.password = 'Password is required';
+    setErrors(errs);
+    if (Object.keys(errs).length === 0) {
+        try {
+            // 1️⃣ Login API
+            const loginResponse = await fetch('https://fhirassist.rsystems.com:481/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: userId,
-                    password: password
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    if (data && data.idToken) {
-                        localStorage.setItem('authToken', data.idToken);
-                        navigate('/home');
-                    } else {
-                        setErrors({ api: data.message || 'Login failed' });
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userId, password })
+            });
+            const loginData = await loginResponse.json();
+
+            if (!loginData || !loginData.idToken) {
+                setErrors({ api: loginData.message || 'Login failed' });
+                return;
+            }
+            localStorage.setItem('authToken', loginData.idToken);
+          
+            const token = loginData.idToken;
+            const localId = loginData.localId;
+
+            try {
+                const userResponse = await fetch(`https://fhirassist.rsystems.com:481/firebase/get-user?uuid=${localId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     }
-                })
-                .catch(() => {
-                    setErrors({ api: 'Network error' });
                 });
+
+                if (!userResponse.ok) throw new Error('Failed to fetch current user');
+
+                const userData = await userResponse.json();
+                localStorage.setItem('userName', userData.name || 'User');
+            } catch (err) {
+                console.error('Error fetching current user:', err);
+                localStorage.setItem('userName', 'User'); // fallback
+            }
+            navigate('/home');
+
+        } catch (err) {
+            console.error('Network/login error:', err);
+            setErrors({ api: 'Network error' });
         }
-    };
+    }
+};
+
 
     return (
         <section className="hero">

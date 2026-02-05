@@ -10,8 +10,19 @@
         return (...args) => target(prop, ...args);
       },
     });
-  }
 
+    const currentPage = window.location.pathname;
+    let messages = [];
+
+    if (currentPage.includes('/home')) {
+      messages = [
+        "Hi!",
+        localStorage.getItem("userName"),
+        "I am CareBridge, your AI assistant tool for Patient Care.",
+        " What can I help you with?"];
+    }
+    window.chatbase.setInitialMessages(messages);
+  }
   window.chatbase("registerTools", {
     search_fhir_patient: async (args) => {
       try {
@@ -82,10 +93,10 @@
         return { status: "error", error: error.message };
       }
     },
-    search_patient_prescriptions:async (args) => {
+    search_patient_prescriptions: async (args) => {
       try {
         const { code = "" } = args;
-        const query = new URLSearchParams({  code }).toString();
+        const query = new URLSearchParams({ code }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
           `https://fhirassist.rsystems.com:481/baseR4/MedicationRequest?${query}`,
@@ -157,10 +168,10 @@
         return { status: "error", error: error.message };
       }
     },
-    search_patient_condition:async (args) => {
+    search_patient_condition: async (args) => {
       try {
         const { subject = "", code = "", encounter = "" } = args;
-        const query = new URLSearchParams({ subject, code , encounter }).toString();
+        const query = new URLSearchParams({ subject, code, encounter }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
           `https://fhirassist.rsystems.com:481/baseR4/Condition?${query}`,
