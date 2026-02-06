@@ -8,6 +8,7 @@ function Login() {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     
 
@@ -30,10 +31,12 @@ function Login() {
     }, []);
     
     const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     let errs = {};
     if (!userId) errs.userId = 'User ID is required';
     if (!password) errs.password = 'Password is required';
+    
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
         try {
@@ -46,6 +49,7 @@ function Login() {
             const loginData = await loginResponse.json();
 
             if (!loginData || !loginData.idToken) {
+                setLoading(false);
                 setErrors({ api: loginData.message || 'Login failed' });
                 return;
             }
@@ -71,9 +75,11 @@ function Login() {
                 console.error('Error fetching current user:', err);
                 localStorage.setItem('userName', 'User'); // fallback
             }
+            setLoading(false);
             navigate('/home');
 
         } catch (err) {
+            setLoading(false);
             console.error('Network/login error:', err);
             setErrors({ api: 'Network error' });
         }
@@ -83,6 +89,18 @@ function Login() {
 
     return (
         <section className="hero">
+        {loading && (
+                <div className="page-loader">
+                    <div className="spinner"></div>
+                    <p className="mt-3">Signing you in…</p>
+                </div>
+            )}
+            {errors.api && (
+                <div className="alert alert-danger mt-3">
+                    <i className="fa-solid fa-circle-exclamation me-2"></i>
+                    {errors.api}
+                </div>
+            )}
             <div className="container">
                 <div className="row align-items-center g-4">
                     <div className="col-lg-6">
