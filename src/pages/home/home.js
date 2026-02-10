@@ -8,6 +8,18 @@ function Home() {
 
     useEffect(() => {
         const interval = setInterval(() => {
+            debugger
+            const currentPage = window.location.pathname;
+            let messages = [];
+            if (currentPage.includes('/home')) {
+                messages = [
+                    "Hi!",
+                    localStorage.getItem("userName"),
+                    "I am CareBridge, your AI assistant tool for Patient Care.",
+                    " What can I help you with?"
+                ];
+            }
+            window.chatbase.setInitialMessages(messages);
             const button = document.getElementById('chatbase-bubble-button');
             if (button) {
                 console.log('Chatbase button found, clicking it to open chat window.');
@@ -25,10 +37,12 @@ function Home() {
         // Add any logout logic here (e.g., clearing tokens)
         localStorage.clear();
         const button = document.getElementById('chatbase-bubble-button');
+        const displayScreen = document.getElementById('chatbase-bubble-window');
         if (button) {
             console.log('Chatbase button found, clicking it to open chat window.');
             button.click();
             button.style.display = 'none';
+            displayScreen.style.display = 'none'
         }
         navigate('/');
     };

@@ -10,18 +10,6 @@
         return (...args) => target(prop, ...args);
       },
     });
-
-    const currentPage = window.location.pathname;
-    let messages = [];
-
-    if (currentPage.includes('/home')) {
-      messages = [
-        "Hi!",
-        localStorage.getItem("userName"),
-        "I am CareBridge, your AI assistant tool for Patient Care.",
-        " What can I help you with?"];
-    }
-    window.chatbase.setInitialMessages(messages);
   }
   window.chatbase("registerTools", {
     search_fhir_patient: async (args) => {
