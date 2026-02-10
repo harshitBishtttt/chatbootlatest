@@ -10,7 +10,7 @@ function Login() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -18,9 +18,9 @@ function Login() {
             if (button) {
                 console.log('Chatbase button found, clicking it to open chat window.');
                 button.style.display = 'none';
-            clearInterval(interval);
+                clearInterval(interval);
             } else {
-           // clearInterval(interval);
+                // clearInterval(interval);
             }
         }, 500);
         const token = localStorage.getItem('authToken');
@@ -29,16 +29,18 @@ function Login() {
         }
 
     }, []);
-    
+
     const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
-    let errs = {};
-    if (!userId) errs.userId = 'User ID is required';
-    if (!password) errs.password = 'Password is required';
-    
-    setErrors(errs);
-    if (Object.keys(errs).length === 0) {
+        setLoading(true);
+        e.preventDefault();
+        let errs = {};
+        if (!userId) errs.userId = 'User ID is required';
+        if (!password) errs.password = 'Password is required';
+        setErrors(errs);
+        if (Object.keys(errs).length > 0) {
+            setLoading(false);
+            return; 
+        }
         try {
             const loginResponse = await fetch('https://fhirassist.rsystems.com:481/auth/login', {
                 method: 'POST',
@@ -53,7 +55,7 @@ function Login() {
                 return;
             }
             localStorage.setItem('authToken', loginData.idToken);
-          
+
             const token = loginData.idToken;
             const localId = loginData.localId;
 
@@ -83,13 +85,13 @@ function Login() {
             console.error('Network/login error:', err);
             setErrors({ api: 'Network error' });
         }
-    }
-};
+
+    };
 
 
     return (
         <section className="hero">
-        {loading && (
+            {loading && (
                 <div className="page-loader">
                     <div className="spinner"></div>
                     <p className="mt-3">Signing you in…</p>
