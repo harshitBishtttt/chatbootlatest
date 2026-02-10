@@ -12,20 +12,19 @@
     });
   }
 
-  window.initChatbaseMessages = function () {
-    const currentPage = window.location.pathname;
-    let messages = [];
+  const currentPage = window.location.pathname;
+  let messages = [];
 
-    if (currentPage.includes('/home')) {
-      messages = [
-        "Hi!",
-        localStorage.getItem("userName"),
-        "I am CareBridge, your AI assistant tool for Patient Care.",
-        " What can I help you with?"
-      ];
-    }
-    window.chatbase.setInitialMessages(messages);
+  if (currentPage.includes('/home')) {
+    messages = [
+      "Hi!",
+      localStorage.getItem("userName"),
+      "I am CareBridge, your AI assistant tool for Patient Care.",
+      " What can I help you with?"
+    ];
   }
+  window.chatbase.setInitialMessages(messages);
+  
   window.chatbase("registerTools", {
     search_fhir_patient: async (args) => {
       try {
@@ -98,8 +97,8 @@
     },
     search_patient_medications: async (args) => {
       try {
-        const { subject = "", prescriptionId = "",code="" } = args;
-        const query = new URLSearchParams({ subject, prescriptionId,code }).toString();
+        const { subject = "", prescriptionId = "", code = "" } = args;
+        const query = new URLSearchParams({ subject, prescriptionId, code }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
           `https://fhirassist.rsystems.com:481/baseR4/MedicationRequest?${query}`,

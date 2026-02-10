@@ -75,7 +75,7 @@ function Login() {
                 localStorage.setItem('userName', 'User'); // fallback
             }
             setLoading(false);
-            window.initChatbaseMessages();
+            sessionStorage.setItem("reloadHomeOnce", "true");
             navigate('/home');
 
         } catch (err) {

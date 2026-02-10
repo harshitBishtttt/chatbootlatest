@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
-
+    if (sessionStorage.getItem("reloadHomeOnce")) {
+        sessionStorage.removeItem("reloadHomeOnce");
+        window.location.reload();
+    }
     useEffect(() => {
         const interval = setInterval(() => {
             const button = document.getElementById('chatbase-bubble-button');
