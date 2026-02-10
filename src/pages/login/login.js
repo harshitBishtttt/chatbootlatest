@@ -40,7 +40,6 @@ function Login() {
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
         try {
-            // 1️⃣ Login API
             const loginResponse = await fetch('https://fhirassist.rsystems.com:481/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -76,6 +75,7 @@ function Login() {
                 localStorage.setItem('userName', 'User'); // fallback
             }
             setLoading(false);
+            window.initChatbaseMessages();
             navigate('/home');
 
         } catch (err) {
