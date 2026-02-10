@@ -106,7 +106,6 @@
 
     search_patient_medications: async (args) => {
       try {
-        debugger
         const { subject = "", prescriptionId = "" } = args;
         const query = new URLSearchParams({ subject, prescriptionId }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
