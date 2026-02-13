@@ -28,8 +28,8 @@
   window.chatbase("registerTools", {
     search_fhir_patient: async (args) => {
       try {
-        const { family = "", given = "", email = "", birthdate = "", gender = "" } = args;
-        const query = new URLSearchParams({ family, given, email, birthdate, gender }).toString();
+        const { family = "", given = "", email = "", birthdate = "", gender = "",page } = args;
+        const query = new URLSearchParams({ family, given, email, birthdate, gender,page }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
 
         const response = await fetch(
@@ -51,7 +51,7 @@
 
     search_patient_observations: async (args) => {
       try {
-        const { value_quantity = "", code = "", subject = "", encounter = "",page=0} = args;
+        const { value_quantity = "", code = "", subject = "", encounter = "",page} = args;
         const query = new URLSearchParams({ value_quantity, code, subject, encounter,page}).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
 
@@ -75,8 +75,8 @@
 
     search_patient_procedure: async (args) => {
       try {
-        const { subject = "", code = "", encounter = "" } = args;
-        const query = new URLSearchParams({ subject, code, encounter }).toString();
+        const { subject = "", code = "", encounter = "",page } = args;
+        const query = new URLSearchParams({ subject, code, encounter,page }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
           `https://fhirassist.rsystems.com:481/baseR4/Procedure?${query}`,
@@ -97,8 +97,8 @@
     },
     search_patient_medications: async (args) => {
       try {
-        const { subject = "", prescriptionId = "", code = "" } = args;
-        const query = new URLSearchParams({ subject, prescriptionId, code }).toString();
+        const { subject = "", prescriptionId = "", code = "",page } = args;
+        const query = new URLSearchParams({ subject, prescriptionId, code,page }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
           `https://fhirassist.rsystems.com:481/baseR4/MedicationRequest?${query}`,
@@ -119,13 +119,13 @@
     },
     search_patient_encounter: async (args) => {
       try {
-        const { subject = "", startDate, endDate } = args;
+        const { subject = "", startDate, endDate,page } = args;
 
         const params = new URLSearchParams();
         if (subject) params.append("subject", subject);
         if (startDate) params.append("date", `${startDate}`);
         if (endDate) params.append("date", `${endDate}`);
-
+        if (page) params.append("page", page);
         const token = localStorage.getItem("authToken");
 
         const response = await fetch(
@@ -148,8 +148,8 @@
     },
     search_patient_condition: async (args) => {
       try {
-        const { subject = "", code = "", encounter = "" } = args;
-        const query = new URLSearchParams({ subject, code, encounter }).toString();
+        const { subject = "", code = "", encounter = "" ,page} = args;
+        const query = new URLSearchParams({ subject, code, encounter,page }).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
         const response = await fetch(
           `https://fhirassist.rsystems.com:481/baseR4/Condition?${query}`,
