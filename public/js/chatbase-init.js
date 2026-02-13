@@ -51,8 +51,8 @@
 
     search_patient_observations: async (args) => {
       try {
-        const { value_quantity = "", code = "", subject = "", encounter = "",page=0,size=10} = args;
-        const query = new URLSearchParams({ value_quantity, code, subject, encounter,page,size}).toString();
+        const { value_quantity = "", code = "", subject = "", encounter = "",page=0} = args;
+        const query = new URLSearchParams({ value_quantity, code, subject, encounter,page}).toString();
         const token = localStorage.getItem("authToken"); // dynamic token from login
 
         const response = await fetch(
