@@ -1,49 +1,48 @@
 import './home.css';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
-    if (sessionStorage.getItem("reloadHomeOnce")) {
-        sessionStorage.removeItem("reloadHomeOnce");
-        window.location.reload();
-    }
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const button = document.getElementById('chatbase-bubble-button');
-            if (button) {
-                console.log('Chatbase button found, clicking it to open chat window.');
-                button.style.display = 'block';
-                button.click();
-                clearInterval(interval);
-            } else {
-                // clearInterval(interval);
-            }
-        }, 500);
-    }, []);
     const navigate = useNavigate();
+    const [chatOpen, setChatOpen] = useState(true);
+    const iframeRef = useRef(null);
+
+    useEffect(() => {
+
+       
+
+        if (iframeRef.current) {
+
+            iframeRef.current.src =
+                `https://webchat.botframework.com/embed/${botId}?s=${secret}`;
+
+            iframeRef.current.style.opacity = "0";
+
+            iframeRef.current.onload = () => {
+                iframeRef.current.style.opacity = "1";
+            };
+        }
+
+    }, []);
 
     const handleLogout = () => {
-        // Add any logout logic here (e.g., clearing tokens)
         localStorage.clear();
-        const button = document.getElementById('chatbase-bubble-button');
-        const displayScreen = document.getElementById('chatbase-bubble-window');
-        if (button) {
-            console.log('Chatbase button found, clicking it to open chat window.');
-            button.click();
-            button.style.display = 'none';
-            displayScreen.style.display = 'none'
-        }
         navigate('/');
     };
+
+    const toggleChat = () => {
+        setChatOpen(!chatOpen);
+    };
+
+
 
     return (
         <section className="py-5 BorderSection">
             <div className="container">
                 <div className="row align-items-start">
 
-                    <div className="col-lg-8 col-md-12">
+                    <div className="col-lg-7 col-md-12">
                         <h2 className="section-title">
                             Streamline Your Care Coordination
                         </h2>
@@ -93,16 +92,50 @@ function Home() {
                             </div>
 
                         </div>
-                        <div class="row g-4"><div class="col-md-4 pt-4"><button class="btn btn-primary-custom mt-4 w-75" onClick={handleLogout} >
-                            <i class="fa-solid fa-sign-out me-2"></i>
+                        <div className="row g-4"><div className="col-md-4 pt-4"><button className="btn btn-primary-custom mt-4 w-75" onClick={handleLogout} >
+                            <i className="fa-solid fa-sign-out me-2"></i>
                             Log Out
                         </button></div></div>
                     </div>
 
-                    <div className="col-lg-4 col-md-12">
-                        <div className="chat-shell">
+                    <div className="col-lg-5 col-md-12">
+                        {chatOpen && (
+                            <div className="chat-widget-wrap">
+                                <div className="chat-widget-bar">
+                                    <div className="widget-avatar"></div>
+                                    <div className="widget-info">
+                                        <div className="widget-name">CareBridge</div>
+                                        <div className="widget-status"><span className="widget-dot"></span>Online</div>
+                                    </div>
+                                    <div className="widget-actions">
+                                        <button
+                                            className="widget-btn"
+                                            onClick={toggleChat}
+                                            title="Close Chat"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                </div>
 
-                        </div>
+                                <iframe
+                                    id="botchat"
+                                    ref={iframeRef}
+                                    title="AgentBot AI Assistant" 
+                                    allow="microphone;"
+                                ></iframe>
+                            </div>
+                        )}
+
+                        {!chatOpen && (
+                            <button
+                                className="float-chat-btn"
+                                onClick={toggleChat}
+                                title="Open Chat"
+                            >
+                                💬
+                            </button>
+                        )}
                     </div>
 
                 </div>

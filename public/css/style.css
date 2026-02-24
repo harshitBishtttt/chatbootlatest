@@ -174,9 +174,3 @@ footer {
   border: none;
   flex: 1;
 }
-
-#chatbase-bubble-window {
-  width: 750px !important;
-  height: 592px !important ;
-  top: 71px !important;
-}
